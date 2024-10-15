@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Comment;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -9,17 +10,15 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Task;
 
-class TaskDelete
+class CommentCreate
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $task_id;
-
-    public function __construct(Task $task)
+    public $comment;
+    public function __construct(Comment $comment)
     {
-        $this->task_id = $task;
+        $this->comment = $comment;
     }
 
     /**
@@ -29,11 +28,11 @@ class TaskDelete
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('task.' . $this->task_id);
+        return new PrivateChannel('task.' . $this->comment->task_id);
     }
 
     public function broadcastAs()
     {
-        return 'task.delete';
+        return 'comment.created';
     }
 }

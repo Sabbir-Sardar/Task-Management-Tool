@@ -64,7 +64,7 @@ class TaskController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Failed to Update Task.',
-                'error' => $e->getMessage(), // Optional: remove in production
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -75,7 +75,7 @@ class TaskController extends Controller
         try {
             $task = Task::find($id);
             $task->delete();
-            broadcast(new TaskDelete($task))->toOthers();
+            broadcast(new TaskDelete($id))->toOthers();
             return response()->json([
                 'message' => 'Task Delete successfully.',
                 'task' => $task
@@ -83,7 +83,7 @@ class TaskController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Failed to Delete Task.',
-                'error' => $e->getMessage(), // Optional: remove in production
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
