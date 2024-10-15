@@ -75,10 +75,10 @@ class TaskController extends Controller
         try {
             $task = Task::find($id);
             $task->delete();
-            broadcast(new TaskDelete($id))->toOthers();
+            broadcast(new TaskDelete($task))->toOthers();
             return response()->json([
                 'message' => 'Task Delete successfully.',
-                'task' => $task
+                'task_id' => $task
             ], 201);
         } catch (Exception $e) {
             return response()->json([

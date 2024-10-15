@@ -15,11 +15,11 @@ class TaskDelete
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $task_id;
+    public $task;
 
     public function __construct(Task $task)
     {
-        $this->task_id = $task;
+        $this->task = $task;
     }
 
     /**
@@ -29,7 +29,7 @@ class TaskDelete
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('task.' . $this->task_id);
+        return new PrivateChannel('task.' . $this->task);
     }
 
     public function broadcastAs()
