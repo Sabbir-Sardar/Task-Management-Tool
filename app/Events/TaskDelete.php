@@ -11,15 +11,15 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Task;
 
-class TaskDelete
+class TaskDelete implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $task;
+    public $taskId;
 
-    public function __construct(Task $task)
+    public function __construct($taskId)
     {
-        $this->task = $task;
+        $this->taskId = $taskId;
     }
 
     /**
@@ -29,11 +29,11 @@ class TaskDelete
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('task.' . $this->task);
+        return new PrivateChannel('tasks');
     }
 
     public function broadcastAs()
     {
-        return 'task.delete';
+        return 'task.deleted';
     }
 }

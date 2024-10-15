@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Task;
 
-class TaskCreate
+class TaskCreate implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

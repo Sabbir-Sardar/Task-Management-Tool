@@ -74,11 +74,18 @@ class TaskController extends Controller
     {
         try {
             $task = Task::find($id);
+            if (!$task) {
+                return response()->json([
+                    'message' => 'Task not found.',
+                    'error' => 'Task not found.',
+                ], 404);
+            }
+            $taskId = $task->id;
             $task->delete();
-            broadcast(new TaskDelete($task))->toOthers();
+            broadcast(new TaskDelete($taskId))->toOthers();
             return response()->json([
-                'message' => 'Task Delete successfully.',
-                'task_id' => $task
+                'message' => 'Task deleted successfully.',
+                'task_id' => $taskId,
             ], 201);
         } catch (Exception $e) {
             return response()->json([
